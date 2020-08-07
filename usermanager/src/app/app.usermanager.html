@@ -1,0 +1,106 @@
+
+  <div class="container p-3 ">
+    <h1>
+        {{title}}
+    </h1>
+    
+    <div style="padding: 10px;">
+      Role 
+      <select #search_role (change)="onChangeSearchRole($event.target.value)">
+        <option *ngFor="let value of searchValues;" value={{value}}>{{value}}</option>
+      </select>
+      <input type="text" name="search"  required class='fix-height' #search_text (input) = "onSearch()">
+      <button (click)="onSearch()" type="button" class="btn btn-secondary fa fa-search" style="margin-bottom: 5px;"></button>
+
+    </div>
+
+    <form #userForm="ngForm" (ngSubmit) = "onSave(userForm.value)" novalaidate >
+      
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Firstname</th>
+              <th scope="col">Lastname</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
+              <th scope="col">
+                
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let item of userList;'>
+              
+              <input *ngIf="editId == item._id " name="id" type="hidden" [(ngModel)]="item._id">
+                
+              <td *ngIf="editId !== item._id" >{{item.firstname}}</td>
+              <td *ngIf="editId == item._id" ><input type="text" name="firstname" [(ngModel)]="item.firstname"  required class='fix-height'></td>
+
+              <td *ngIf="editId != item._id" >{{item.lastname}}</td>
+              <td *ngIf="editId == item._id" ><input type="text" [(ngModel)]="item.lastname" name = "lastname" required class='fix-height'></td>
+
+              <td *ngIf="editId != item._id" >{{item.email}}</td>
+              <td *ngIf="editId == item._id" ><input type="text" [(ngModel)]="item.email" name = "email" required class='fix-height'></td>
+
+              <td *ngIf="editId != item._id" >{{item.role}}</td>
+              <td *ngIf="editId == item._id" >
+                <!--<input type="text" [(ngModel)]="item.role" name = "role" > -->
+                <select (change)="onSelectRole($event.target.value)" name="role" [(ngModel)]="item.role">
+                  <option *ngFor="let value of roleValues;" value={{value}}>{{value}}</option>
+                </select>
+              </td>
+
+              <td style="width: 180px;"> 
+                  <button *ngIf="editId !== item._id" (click)="onEdit(item._id)" type="button" class="btn btn-secondary fa fa-pencil-square-o"></button>
+                  <button *ngIf="editId !== item._id" type="button" (click)="modal1.show();deleteId =  item._id" class="btn btn-secondary fa fa-trash"></button> 
+
+                  <button *ngIf="editId == item._id" type="submit" class="btn btn-secondary fa fa-floppy-o"></button> 
+
+              </td>
+            </tr>
+            <tr>
+              <td *ngIf="newItem == ''"> 
+                <button type="button" class="btn btn-secondary fa fa-plus" (click)="onNew()"></button> 
+              </td>
+              <td *ngIf="newItem != ''" ><input type="text" name="firstname"  ngModel required class='fix-height'></td>
+
+              <td *ngIf="newItem == ''" ></td>
+              <td *ngIf="newItem != ''" ><input type="text" name = "lastname" ngModel required class='fix-height'></td>
+
+              <td *ngIf="newItem == ''" ></td>
+              <td *ngIf="newItem != ''" ><input type="text" name = "email" ngModel required class='fix-height'></td>
+
+              <td *ngIf="newItem == ''" ></td>
+              <td *ngIf="newItem != ''" >
+                <select (change)="onSelectRole($event.target.value)" name="role" ngModel required>
+                  <option *ngFor="let value of roleValues;" value={{value}}>{{value}}</option>
+                </select>
+              </td>
+
+              <td *ngIf="newItem == ''" ></td>
+              <td *ngIf="newItem != ''">
+                <button  type="submit" class="btn btn-secondary fa fa-floppy-o"></button>
+              </td>
+            </tr>
+            <tr></tr>
+          </tbody>
+        </table>
+        <div style="color: red;" *ngIf="errMsg != ''">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true">&nbsp;{{errMsg}}</i>
+        </div>
+    </form>
+   
+  </div>
+
+  <app-modal #modal1>
+    <div class="app-modal-header">
+      Item Delete
+    </div>
+    <div class="app-modal-body">
+      Are you sure you want to delete ?
+    </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-secondary"  (click)="modal1.hide()">&nbsp;&nbsp;N&nbsp;o&nbsp;&nbsp;</button>
+      <button type="button" class="btn btn-secondary"  (click)="modal1.hide(); onDelete(deleteId)">&nbsp;&nbsp;Yes&nbsp;&nbsp;</button>
+    </div>
+  </app-modal>
