@@ -1,0 +1,22 @@
+{
+  "name": "meanstack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git.evennode.com:81f5688397be34bba63409c1cdfbb8d7.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.27"
+  },
+  "config": {
+    "port": 8080
+  }
+} 
